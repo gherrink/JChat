@@ -43,6 +43,7 @@ public abstract class Connection extends Thread
     public void close()
     {
         System.out.println("Close connection");
+        ConnectionManager.getInstance().removeConnection(this);
         this.connected = false;
         if(out != null) {
             out.close();

@@ -50,6 +50,10 @@ public class ConnectionManager
         }
     }
     
+    public void removeConnection(Connection connection) {
+        connections.remove(connection);
+    }
+    
     public void write(ChatProtocol protocol, Connection connection) {
         for(Connection con : connections)
         {
