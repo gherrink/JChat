@@ -23,7 +23,13 @@ public class Client
             @Override
             public void logedin(ClientConnection con)
             {
-                System.out.println("Verification: " + con.getVerification());
+                String verific = con.getVerification();
+                System.out.println("Verification: " + verific);
+                
+                
+                ChatProtocol logout = new ChatProtocol(Action.LOGOUT);
+                logout.setVerification(verific);
+                con.write(logout);
             }
         });
         

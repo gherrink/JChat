@@ -20,7 +20,8 @@ import java.net.Socket;
  */
 public class ServerConnection extends Connection
 {
-
+    private String verification;
+    
     public ServerConnection(Socket socket) throws IOException
     {
         super(socket);
@@ -36,7 +37,11 @@ public class ServerConnection extends Connection
             return;
         }
         
-        write(action.doAction(protocol));
+        ChatProtocol actionReturn = action.doAction(protocol);
+        write(actionReturn);
+        if(verification == null && actionReturn.getVerification() != null) {
+            this.verification = actionReturn.getVerification();
+        }
     }
     
     private ServerAction getAction(ChatProtocol protocol) {
@@ -44,9 +49,18 @@ public class ServerConnection extends Connection
             return new RegisterAction();
         } else if(protocol.getAction().equals(Action.LOGIN.toString())) {
             return new LoginAction();
+        } else if(protocol.getAction().equals(Action.LOGOUT.toString()) && hasPermission(protocol)) {
+            close();
         }
         
         return null;
+    }
+    
+    private boolean hasPermission(ChatProtocol protocol) {
+        if(verification == null) {
+            return false;
+        }
+        return verification.equals(protocol.getVerification());
     }
     
 }
