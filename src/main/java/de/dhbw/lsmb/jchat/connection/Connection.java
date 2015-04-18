@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.dhbw.lsmb.jchat.server;
+package de.dhbw.lsmb.jchat.connection;
 
+import com.google.gson.Gson;
+import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,7 +17,7 @@ import java.net.Socket;
  *
  * @author Maurice Busch <busch.maurice@gmx.net>
  */
-public final class Connection extends Thread
+public abstract class Connection extends Thread
 {
     private final Socket socket;
     private boolean connected;
@@ -73,8 +75,11 @@ public final class Connection extends Thread
                 if(read == null) {
                     break;
                 }
-                System.out.println("Read from Client " + read);
-                //TODO desight what to do with String
+                System.out.println("Read: " + read);
+                ChatProtocol protocol = (new Gson()).fromJson(read, ChatProtocol.class);
+                if(protocol != null) {
+                    doAction(protocol);
+                }
             }
             catch(IOException ex)
             {
@@ -85,8 +90,11 @@ public final class Connection extends Thread
         close();
     }
     
-    public void write(String write) {
-        System.out.println("Write to Client " + write);
+    protected abstract void doAction(ChatProtocol protocol);
+    
+    public void write(ChatProtocol protocol) {
+        String write = (new Gson()).toJson(protocol);
+        System.out.println("Write: " + write);
         out.write(write);
     }
 }

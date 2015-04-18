@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.dhbw.lsmb.jchat;
+package de.dhbw.lsmb.jchat.server;
 
 import com.google.gson.Gson;
+import de.dhbw.lsmb.jchat.json.models.Action;
+import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
 import de.dhbw.lsmb.jchat.json.models.Message;
-import de.dhbw.lsmb.jchat.server.ConnectionManager;
+import de.dhbw.lsmb.jchat.connection.ConnectionManager;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,10 +30,10 @@ public class Server
         ConnectionManager.getInstance().addConnection(skt);
 
         Message msg = new Message("Sender", "Message", new Date());
-        Gson gson = new Gson();
-        String data = gson.toJson(msg);
+        ChatProtocol prot = new ChatProtocol(Action.MESSAGE);
+        prot.setMessage(msg);
 
-        ConnectionManager.getInstance().write(data);
+        ConnectionManager.getInstance().write(prot);
 
         Thread.sleep(2000);
 

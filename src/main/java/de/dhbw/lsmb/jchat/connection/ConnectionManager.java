@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.dhbw.lsmb.jchat.server;
+package de.dhbw.lsmb.jchat.connection;
 
+import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
+import de.dhbw.lsmb.jchat.server.ServerConnection;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -35,7 +35,7 @@ public class ConnectionManager
     public void addConnection(Socket socket) {
         try
         {
-            connections.add(new Connection(socket));
+            connections.add(new ServerConnection(socket));
         }
         catch(IOException ex)
         {
@@ -50,10 +50,10 @@ public class ConnectionManager
         }
     }
     
-    public void write(String string) {
+    public void write(ChatProtocol protocol) {
         for(Connection connection : connections)
         {
-            connection.write(string);
+            connection.write(protocol);
         }
     }
 }
