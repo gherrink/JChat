@@ -11,6 +11,7 @@ import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
 import de.dhbw.lsmb.jchat.server.actions.RegisterAction;
 import de.dhbw.lsmb.jchat.server.actions.ServerAction;
 import de.dhbw.lsmb.jchat.server.actions.LoginAction;
+import de.dhbw.lsmb.jchat.server.actions.MessageAction;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -20,6 +21,7 @@ import java.net.Socket;
  */
 public class ServerConnection extends Connection
 {
+    public static final String SERVER_VERIFIC = "imbadimbadabababaduuuu";
     private String verification;
     
     public ServerConnection(Socket socket) throws IOException
@@ -38,6 +40,9 @@ public class ServerConnection extends Connection
         }
         
         ChatProtocol actionReturn = action.doAction(protocol);
+        if(actionReturn == null) {
+            return;
+        }
         write(actionReturn);
         if(verification == null && actionReturn.getVerification() != null) {
             this.verification = actionReturn.getVerification();
@@ -46,17 +51,23 @@ public class ServerConnection extends Connection
     
     private ServerAction getAction(ChatProtocol protocol) {
         if(protocol.getAction().equals(Action.REGISTER.toString())) {
-            return new RegisterAction();
+            return new RegisterAction(this);
         } else if(protocol.getAction().equals(Action.LOGIN.toString())) {
-            return new LoginAction();
+            return new LoginAction(this);
         } else if(protocol.getAction().equals(Action.LOGOUT.toString()) && hasPermission(protocol)) {
             close();
+        } else if(protocol.getAction().equals(Action.MESSAGE.toString()) && hasPermission(protocol)) {
+            return new MessageAction(this);
         }
         
         return null;
     }
     
     private boolean hasPermission(ChatProtocol protocol) {
+        if(protocol.getVerification().equals(SERVER_VERIFIC))
+        {
+            return true;
+        }
         if(verification == null) {
             return false;
         }

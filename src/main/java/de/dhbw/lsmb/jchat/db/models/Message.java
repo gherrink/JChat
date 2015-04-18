@@ -8,10 +8,11 @@ package de.dhbw.lsmb.jchat.db.models;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.hibernate.annotations.CreationTimestamp;
 
 /**
  *
@@ -21,18 +22,21 @@ import org.hibernate.annotations.CreationTimestamp;
 public class Message
 {
     @Id
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
-    private Date date;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     
-    @Column(nullable = false)
-    private String message;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     
     @Column(nullable = false)
     private int sender;
     
-    public Message(String message, int sender)
+    @Column(nullable = false)
+    private String message;
+    
+    public Message(Date date, String message, int sender)
     {
+        this.date = date;
         this.message = message;
         this.sender = sender;
     }
@@ -75,6 +79,22 @@ public class Message
     public Date getDate()
     {
         return date;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId()
+    {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id)
+    {
+        this.id = id;
     }
     
 }

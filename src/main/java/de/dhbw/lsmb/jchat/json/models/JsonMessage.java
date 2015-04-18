@@ -14,8 +14,13 @@ import java.util.Date;
 public class JsonMessage
 {
     private String sender;
+    private int senderid;
     private String message;
     private Date date;
+    
+    public JsonMessage(String message) {
+        this.message = message;
+    }
     
     public JsonMessage(String sender, String message, Date date)
     {
@@ -74,6 +79,22 @@ public class JsonMessage
     
     @Override
     public String toString() {
-        return "Message from "+ sender +" : "+ message ;
+        return "Message from "+ sender +" "+ date +" : "+ message ;
+    }
+
+    /**
+     * @return the senderid
+     */
+    public int getSenderid()
+    {
+        return senderid;
+    }
+
+    /**
+     * @param senderid the senderid to set
+     */
+    public void setSenderid(int senderid)
+    {
+        this.senderid = senderid;
     }
 }

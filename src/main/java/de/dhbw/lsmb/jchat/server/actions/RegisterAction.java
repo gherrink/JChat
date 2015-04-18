@@ -10,6 +10,7 @@ import de.dhbw.lsmb.jchat.db.models.User;
 import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
 import de.dhbw.lsmb.jchat.json.models.JsonRegister;
 import de.dhbw.lsmb.jchat.json.models.JsonStatus;
+import de.dhbw.lsmb.jchat.server.ServerConnection;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -21,6 +22,11 @@ public class RegisterAction extends ServerAction
 {
     private static final String SELECT_USER = "FROM User u WHERE u.user = :user";
     private static final String SELECT_MAIL = "FROM User u WHERE u.mail = :mail";
+
+    public RegisterAction(ServerConnection connection)
+    {
+        super(connection);
+    }
 
     @Override
     public ChatProtocol doAction(ChatProtocol protocol)

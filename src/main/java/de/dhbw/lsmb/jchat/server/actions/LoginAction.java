@@ -10,6 +10,7 @@ import de.dhbw.lsmb.jchat.db.models.User;
 import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
 import de.dhbw.lsmb.jchat.json.models.JsonLogin;
 import de.dhbw.lsmb.jchat.json.models.JsonStatus;
+import de.dhbw.lsmb.jchat.server.ServerConnection;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -21,10 +22,20 @@ public class LoginAction extends ServerAction
 {
     private static final String SELECT = "FROM User u WHERE u.mail = :mail AND u.password = :password";
 
+    public LoginAction(ServerConnection connection)
+    {
+        super(connection);
+    }
+
     @Override
     public ChatProtocol doAction(ChatProtocol protocol)
     {
         JsonLogin login = protocol.getLogin();
+        if(login == null)
+        {
+            return getProtocolStatus(new JsonStatus(false, "Login is missing"));
+        }
+        
         String pw = User.hashPassword(login.getPassword(), login.getMail());
         
         EntityManager em = EntityManagement.createEntityManager();

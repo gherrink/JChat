@@ -50,10 +50,12 @@ public class ConnectionManager
         }
     }
     
-    public void write(ChatProtocol protocol) {
-        for(Connection connection : connections)
+    public void write(ChatProtocol protocol, Connection connection) {
+        for(Connection con : connections)
         {
-            connection.write(protocol);
+            if(! con.equals(connection)) {
+                con.write(protocol);
+            }
         }
     }
 }

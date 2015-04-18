@@ -12,16 +12,19 @@ import de.dhbw.lsmb.jchat.json.models.JsonMessage;
 import de.dhbw.lsmb.jchat.json.models.JsonRegister;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Maurice Busch <busch.maurice@gmx.net>
  */
-public class Client
+public class Client2
 {
-    public static void main(String args[]) throws IOException, InterruptedException {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws IOException, InterruptedException
+    {
         final ClientConnection con = new ClientConnection(new Socket("localhost", 1234), new ClientConnection.LoginListener() {
             @Override
             public void logedin(ClientConnection con)
@@ -31,7 +34,7 @@ public class Client
                 
                 ChatProtocol message = new ChatProtocol(Action.MESSAGE);
                 message.setVerification(verific);
-                message.setMessage(new JsonMessage("Message from user"));
+                message.setMessage(new JsonMessage("Message from client2"));
                 con.write(message);
                 
 //                ChatProtocol logout = new ChatProtocol(Action.LOGOUT);
@@ -41,22 +44,16 @@ public class Client
         });
         
         ChatProtocol register = new ChatProtocol(Action.REGISTER);
-        register.setRegister(new JsonRegister("user", "user.user@domain.de", "password", "password"));
-        con.write(register);
-        con.write(register);
-        register.setRegister(new JsonRegister("user2", "user.user@domain.de", "password", "password"));
-        con.write(register);
-        register.setRegister(new JsonRegister("user2", "user.user@domain.com", "password", "password111"));
+        register.setRegister(new JsonRegister("client2", "client2@domain.de", "password2", "password2"));
         con.write(register);
         
         ChatProtocol login = new ChatProtocol(Action.LOGIN);
-        login.setLogin(new JsonLogin("user.user@domain.com", "password"));
-        con.write(login);
-        login.setLogin(new JsonLogin("user.user@domain.de", "password"));
+        login.setLogin(new JsonLogin("client2@domain.de", "password2"));
         con.write(login);
         
         Thread.sleep(100000);
         
         con.close();
     }
+    
 }
