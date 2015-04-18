@@ -7,7 +7,8 @@ package de.dhbw.lsmb.jchat;
 
 import com.google.gson.Gson;
 import de.dhbw.lsmb.jchat.json.models.Message;
-import java.io.PrintWriter;
+import de.dhbw.lsmb.jchat.server.ConnectionManager;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
@@ -18,25 +19,22 @@ import java.util.Date;
  */
 public class Server
 {
-    public static void main(String args[]) {
-        try {
-            System.out.println("Server start.");
-            ServerSocket socket = new ServerSocket(1234);
-            Socket skt = socket.accept();
-            System.out.println("Connected!");
-            PrintWriter out = new PrintWriter(skt.getOutputStream(), true);
-            
-            Message msg = new Message("Sender", "Message", new Date());
-            Gson gson = new Gson();
-            String data = gson.toJson(msg);
-            
-            System.out.println("Sending string: '" + data + "'");
-            out.print(data);
-            out.close();
-            skt.close();
-            socket.close();
-        } catch(Exception e) {
-            System.out.println("Whoops! It didn't work!");
-        }
+    public static void main(String args[]) throws InterruptedException, IOException {
+        System.out.println("Server start.");
+        ServerSocket socket = new ServerSocket(1234);
+        Socket skt = socket.accept();
+        System.out.println("Connected!");
+
+        ConnectionManager.getInstance().addConnection(skt);
+
+        Message msg = new Message("Sender", "Message", new Date());
+        Gson gson = new Gson();
+        String data = gson.toJson(msg);
+
+        ConnectionManager.getInstance().write(data);
+
+        Thread.sleep(2000);
+
+        ConnectionManager.getInstance().closeAllConnections();
    }
 }
