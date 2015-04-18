@@ -5,9 +5,12 @@
  */
 package de.dhbw.lsmb.jchat;
 
+import com.google.gson.Gson;
+import de.dhbw.lsmb.jchat.json.models.Message;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 
 /**
  *
@@ -16,12 +19,17 @@ import java.net.Socket;
 public class Server
 {
     public static void main(String args[]) {
-        String data = "Test string";
         try {
+            System.out.println("Server start.");
             ServerSocket socket = new ServerSocket(1234);
             Socket skt = socket.accept();
-            System.out.println("Server has connected!");
+            System.out.println("Connected!");
             PrintWriter out = new PrintWriter(skt.getOutputStream(), true);
+            
+            Message msg = new Message("Sender", "Message", new Date());
+            Gson gson = new Gson();
+            String data = gson.toJson(msg);
+            
             System.out.println("Sending string: '" + data + "'");
             out.print(data);
             out.close();
