@@ -5,38 +5,64 @@
  */
 package de.dhbw.lsmb.jchat.server;
 
-import com.google.gson.Gson;
-import de.dhbw.lsmb.jchat.json.models.Action;
-import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
-import de.dhbw.lsmb.jchat.json.models.Message;
 import de.dhbw.lsmb.jchat.connection.ConnectionManager;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
 
 /**
  *
  * @author Maurice Busch <busch.maurice@gmx.net>
  */
-public class Server
+public final class Server extends Thread
 {
-    public static void main(String args[]) throws InterruptedException, IOException {
-        System.out.println("Server start.");
-        ServerSocket socket = new ServerSocket(1234);
-        Socket skt = socket.accept();
-        System.out.println("Connected!");
-
-        ConnectionManager.getInstance().addConnection(skt);
-
-        Message msg = new Message("Sender", "Message", new Date());
-        ChatProtocol prot = new ChatProtocol(Action.MESSAGE);
-        prot.setMessage(msg);
-
-        ConnectionManager.getInstance().write(prot);
-
-        Thread.sleep(2000);
-
-        ConnectionManager.getInstance().closeAllConnections();
-   }
+    public static void main(String args[]) throws IOException {
+        (new Server(1234)).start();
+    }
+    
+    private final ServerSocket serverSocket;
+    private boolean running;
+    
+    
+    public Server(int port) throws IOException {
+        System.out.println("Server start @ Port " + port + ".");
+        serverSocket = new ServerSocket(port);
+    }
+    
+    @Override
+    public void start() {
+        super.start();
+        running = true;
+    }
+    
+    public void close() {
+        try
+        {
+            running = false;
+            ConnectionManager.getInstance().closeAllConnections();
+            serverSocket.close();
+        }
+        catch(IOException ex)
+        {
+            System.out.println("Serversocket not closed.");
+        }
+    }
+    
+    @Override
+    public void run() {
+        while(running && !serverSocket.isClosed()) {
+            try
+            {
+                System.out.println("Waiting 4 connection.");
+                Socket socket = serverSocket.accept();
+                System.out.println("Connected " + socket.getInetAddress());
+                ConnectionManager.getInstance().addConnection(socket);
+            }
+            catch(IOException ex)
+            {
+                System.out.println("Not connected.");
+            }
+        }
+        close();
+    }
 }
