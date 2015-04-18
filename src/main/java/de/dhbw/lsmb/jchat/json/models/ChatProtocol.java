@@ -14,9 +14,10 @@ import java.util.ArrayList;
 public class ChatProtocol
 {
     private String action;
-    private Message message;
-    private ArrayList<Message> messages;
-    private Register register;
+    private JsonMessage message;
+    private ArrayList<JsonMessage> messages;
+    private JsonRegister register;
+    private JsonStatus status;
     
     public ChatProtocol(Action action) {
         this.action = action.toString();
@@ -41,7 +42,7 @@ public class ChatProtocol
     /**
      * @return the message
      */
-    public Message getMessage()
+    public JsonMessage getMessage()
     {
         return message;
     }
@@ -49,7 +50,7 @@ public class ChatProtocol
     /**
      * @param message the message to set
      */
-    public void setMessage(Message message)
+    public void setMessage(JsonMessage message)
     {
         this.message = message;
     }
@@ -57,7 +58,7 @@ public class ChatProtocol
     /**
      * @return the register
      */
-    public Register getRegister()
+    public JsonRegister getRegister()
     {
         return register;
     }
@@ -65,7 +66,7 @@ public class ChatProtocol
     /**
      * @param register the register to set
      */
-    public void setRegister(Register register)
+    public void setRegister(JsonRegister register)
     {
         this.register = register;
     }
@@ -73,7 +74,7 @@ public class ChatProtocol
     /**
      * @return the messages
      */
-    public ArrayList<Message> getMessages()
+    public ArrayList<JsonMessage> getMessages()
     {
         return messages;
     }
@@ -81,9 +82,25 @@ public class ChatProtocol
     /**
      * @param messages the messages to set
      */
-    public void setMessages(ArrayList<Message> messages)
+    public void setMessages(ArrayList<JsonMessage> messages)
     {
         this.messages = messages;
+    }
+
+    /**
+     * @return the status
+     */
+    public JsonStatus getStatus()
+    {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(JsonStatus status)
+    {
+        this.status = status;
     }
     
 }

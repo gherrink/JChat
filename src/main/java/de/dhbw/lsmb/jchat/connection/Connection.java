@@ -71,6 +71,7 @@ public abstract class Connection extends Thread
         {
             try
             {
+                System.out.println("Waiting 4 Data");
                 String read = in.readLine();
                 if(read == null) {
                     break;
@@ -95,6 +96,7 @@ public abstract class Connection extends Thread
     public void write(ChatProtocol protocol) {
         String write = (new Gson()).toJson(protocol);
         System.out.println("Write: " + write);
-        out.write(write);
+        out.println(write);
+        out.flush();
     }
 }

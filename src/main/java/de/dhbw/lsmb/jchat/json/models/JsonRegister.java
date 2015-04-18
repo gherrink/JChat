@@ -9,13 +9,20 @@ package de.dhbw.lsmb.jchat.json.models;
  *
  * @author Maurice Busch <busch.maurice@gmx.net>
  */
-public class Register
+public class JsonRegister
 {
     private String user;
     private String mail;
     private String password;
     private String passwordRepead;
-
+    
+    public JsonRegister(String user, String mail, String password, String passwordRepead) {
+        this.user = user;
+        this.mail = mail;
+        this.password = password;
+        this.passwordRepead = passwordRepead;
+    }
+    
     /**
      * @return the user
      */

@@ -6,7 +6,9 @@
 package de.dhbw.lsmb.jchat.client;
 
 import de.dhbw.lsmb.jchat.connection.Connection;
+import de.dhbw.lsmb.jchat.json.models.Action;
 import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
+import de.dhbw.lsmb.jchat.json.models.JsonStatus;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -25,7 +27,17 @@ public class ClientConnection extends Connection
     @Override
     protected void doAction(ChatProtocol protocol)
     {
-        //@TODO implement
+        if(protocol.getAction().equals(Action.STATUS.toString())) {
+            showStatus(protocol.getStatus());
+        }
+    }
+    
+    private void showStatus(JsonStatus status)
+    {
+        if(status != null)
+        {
+            System.out.println(status.toString());
+        }
     }
     
 }

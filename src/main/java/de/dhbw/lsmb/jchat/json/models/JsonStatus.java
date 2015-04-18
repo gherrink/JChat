@@ -5,39 +5,34 @@
  */
 package de.dhbw.lsmb.jchat.json.models;
 
-import java.util.Date;
-
 /**
  *
  * @author Maurice Busch <busch.maurice@gmx.net>
  */
-public class Message
+public class JsonStatus
 {
-    private String sender;
+    private boolean correct;
     private String message;
-    private Date date;
     
-    public Message(String sender, String message, Date date)
-    {
-        this.sender = sender;
+    public JsonStatus(boolean correct, String message) {
+        this.correct = correct;
         this.message = message;
-        this.date = date;
+    }
+    
+    /**
+     * @return the correct
+     */
+    public boolean isCorrect()
+    {
+        return correct;
     }
 
     /**
-     * @return the sender
+     * @param correct the correct to set
      */
-    public String getSender()
+    public void setCorrect(boolean correct)
     {
-        return sender;
-    }
-
-    /**
-     * @param sender the sender to set
-     */
-    public void setSender(String sender)
-    {
-        this.sender = sender;
+        this.correct = correct;
     }
 
     /**
@@ -55,25 +50,17 @@ public class Message
     {
         this.message = message;
     }
-
-    /**
-     * @return the date
-     */
-    public Date getDate()
-    {
-        return date;
-    }
-
-    /**
-     * @param date the date to set
-     */
-    public void setDate(Date date)
-    {
-        this.date = date;
-    }
     
     @Override
     public String toString() {
-        return "Message from "+ sender +" : "+ message ;
+        String str = "";
+        if(correct) {
+            str += "All right. ";
+        } else {
+            str += "Error. ";
+        }
+        
+        return str + message;
     }
+    
 }

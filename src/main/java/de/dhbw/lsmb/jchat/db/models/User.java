@@ -5,7 +5,6 @@
  */
 package de.dhbw.lsmb.jchat.db.models;
 
-import com.sun.istack.internal.NotNull;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -28,16 +27,13 @@ public class User
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
-    @Column(length = 50, name = "user_name", unique = true)
-    @NotNull
+    @Column(length = 50, name = "user_name", unique = true, nullable = false)
     private String user;
     
-    @Column(length = 32)
-    @NotNull
+    @Column(length = 32, nullable = false)
     private String password;
     
-    @Column(length = 80, unique = true)
-    @NotNull
+    @Column(length = 80, unique = true, nullable = false)
     private String mail;
     
     public User()

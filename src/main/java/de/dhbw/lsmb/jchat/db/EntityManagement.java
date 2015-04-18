@@ -18,7 +18,7 @@ public class EntityManagement {
 
     public static EntityManagerFactory getEntityManagerFactoryInstance() {
         if (emf == null || !emf.isOpen()) {
-            String environment = "test";
+            String environment = "chat";
 
             emf = Persistence.createEntityManagerFactory(environment);
         }

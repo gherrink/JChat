@@ -5,7 +5,6 @@
  */
 package de.dhbw.lsmb.jchat.db.models;
 
-import com.sun.istack.internal.NotNull;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,12 +25,10 @@ public class Message
     @CreationTimestamp
     private Date date;
     
-    @Column
-    @NotNull
+    @Column(nullable = false)
     private String message;
     
-    @Column
-    @NotNull
+    @Column(nullable = false)
     private int sender;
     
     public Message(String message, int sender)
