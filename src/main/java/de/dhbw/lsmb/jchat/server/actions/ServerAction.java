@@ -22,4 +22,10 @@ public abstract class ServerAction
         protocol.setStatus(status);
         return protocol;
     }
+    
+    public ChatProtocol getProtocolStatus(JsonStatus status, String verification) {
+        ChatProtocol protocol = getProtocolStatus(status);
+        protocol.setVerification(verification);
+        return protocol;
+    }
 }

@@ -14,10 +14,12 @@ import java.util.ArrayList;
 public class ChatProtocol
 {
     private String action;
+    private String verification;
     private JsonMessage message;
     private ArrayList<JsonMessage> messages;
     private JsonRegister register;
     private JsonStatus status;
+    private JsonLogin login;
     
     public ChatProtocol(Action action) {
         this.action = action.toString();
@@ -101,6 +103,38 @@ public class ChatProtocol
     public void setStatus(JsonStatus status)
     {
         this.status = status;
+    }
+
+    /**
+     * @return the verification
+     */
+    public String getVerification()
+    {
+        return verification;
+    }
+
+    /**
+     * @param verification the verification to set
+     */
+    public void setVerification(String verification)
+    {
+        this.verification = verification;
+    }
+
+    /**
+     * @return the login
+     */
+    public JsonLogin getLogin()
+    {
+        return login;
+    }
+
+    /**
+     * @param login the login to set
+     */
+    public void setLogin(JsonLogin login)
+    {
+        this.login = login;
     }
     
 }

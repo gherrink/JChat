@@ -18,10 +18,17 @@ import java.net.Socket;
  */
 public class ClientConnection extends Connection
 {
-
-    public ClientConnection(Socket socket) throws IOException
+    private String verification = null;
+    private LoginListener loginListener;
+    
+    public ClientConnection(Socket socket, LoginListener loginListener) throws IOException
     {
         super(socket);
+        this.loginListener = loginListener;
+    }
+    
+    public String getVerification() {
+        return verification;
     }
 
     @Override
@@ -29,6 +36,10 @@ public class ClientConnection extends Connection
     {
         if(protocol.getAction().equals(Action.STATUS.toString())) {
             showStatus(protocol.getStatus());
+        }
+        if(verification == null && protocol.getVerification() != null) {
+            verification = protocol.getVerification();
+            loginListener.logedin(this);
         }
     }
     
@@ -38,6 +49,10 @@ public class ClientConnection extends Connection
         {
             System.out.println(status.toString());
         }
+    }
+    
+    public interface LoginListener {
+        public void logedin(ClientConnection con);
     }
     
 }

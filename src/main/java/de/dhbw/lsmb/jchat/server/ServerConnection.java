@@ -10,6 +10,7 @@ import de.dhbw.lsmb.jchat.json.models.Action;
 import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
 import de.dhbw.lsmb.jchat.server.actions.RegisterAction;
 import de.dhbw.lsmb.jchat.server.actions.ServerAction;
+import de.dhbw.lsmb.jchat.server.actions.LoginAction;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -39,9 +40,10 @@ public class ServerConnection extends Connection
     }
     
     private ServerAction getAction(ChatProtocol protocol) {
-        if(protocol.getAction().equals(Action.REGISTER.toString()))
-        {
+        if(protocol.getAction().equals(Action.REGISTER.toString())) {
             return new RegisterAction();
+        } else if(protocol.getAction().equals(Action.LOGIN.toString())) {
+            return new LoginAction();
         }
         
         return null;

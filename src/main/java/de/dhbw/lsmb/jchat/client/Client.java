@@ -7,6 +7,7 @@ package de.dhbw.lsmb.jchat.client;
 
 import de.dhbw.lsmb.jchat.json.models.Action;
 import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
+import de.dhbw.lsmb.jchat.json.models.JsonLogin;
 import de.dhbw.lsmb.jchat.json.models.JsonRegister;
 import java.io.IOException;
 import java.net.Socket;
@@ -18,7 +19,13 @@ import java.net.Socket;
 public class Client
 {
     public static void main(String args[]) throws IOException, InterruptedException {
-        final ClientConnection con = new ClientConnection(new Socket("localhost", 1234));
+        final ClientConnection con = new ClientConnection(new Socket("localhost", 1234), new ClientConnection.LoginListener() {
+            @Override
+            public void logedin(ClientConnection con)
+            {
+                System.out.println("Verification: " + con.getVerification());
+            }
+        });
         
         ChatProtocol register = new ChatProtocol(Action.REGISTER);
         register.setRegister(new JsonRegister("user", "user.user@domain.de", "password", "password"));
@@ -28,6 +35,12 @@ public class Client
         con.write(register);
         register.setRegister(new JsonRegister("user2", "user.user@domain.com", "password", "password111"));
         con.write(register);
+        
+        ChatProtocol login = new ChatProtocol(Action.LOGIN);
+        login.setLogin(new JsonLogin("user.user@domain.com", "password"));
+        con.write(login);
+        login.setLogin(new JsonLogin("user.user@domain.de", "password"));
+        con.write(login);
         
         Thread.sleep(100000);
         
