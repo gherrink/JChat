@@ -18,9 +18,15 @@ public class EntityManagement {
 
     public static EntityManagerFactory getEntityManagerFactoryInstance() {
         if (emf == null || !emf.isOpen()) {
-            String environment = "chat";
+            emf = Persistence.createEntityManagerFactory("chat");
+        }
 
-            emf = Persistence.createEntityManagerFactory(environment);
+         return emf;
+    }
+    
+    public static EntityManagerFactory getEntityManagerFactoryInstance(String entity) {
+        if (emf == null || !emf.isOpen()) {
+            emf = Persistence.createEntityManagerFactory(entity);
         }
 
          return emf;

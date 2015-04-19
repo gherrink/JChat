@@ -17,31 +17,44 @@ import java.net.Socket;
  *
  * @author Maurice Busch <busch.maurice@gmx.net>
  */
-public class Client
+public class Client1
 {
-    public Client(int port, String url, final String user, String password) throws IOException, InterruptedException {
-        final ClientConnection con = new ClientConnection(new Socket(url, port), new ClientConnection.LoginListener() {
+    public static void main(String args[]) throws IOException, InterruptedException {
+        final ClientConnection con = new ClientConnection(new Socket("localhost", 1234), new ClientConnection.LoginListener() {
             @Override
             public void logedin(ClientConnection con)
             {
                 String verific = con.getVerification();
-                System.out.println(user + " Verification : " + verific);
+                System.out.println("Verification: " + verific);
                 
                 ChatProtocol message = new ChatProtocol(Action.MESSAGE);
                 message.setVerification(verific);
-                message.setMessage(new JsonMessage("Message from " + user));
+                message.setMessage(new JsonMessage("Message from user"));
                 con.write(message);
+                
+//                ChatProtocol logout = new ChatProtocol(Action.LOGOUT);
+//                logout.setVerification(verific);
+//                con.write(logout);
             }
         });
         
         ChatProtocol register = new ChatProtocol(Action.REGISTER);
-        register.setRegister(new JsonRegister(user, user + "@domain.de", password, password));
+        register.setRegister(new JsonRegister("user", "user.user@domain.de", "password", "password"));
+        con.write(register);
+        con.write(register);
+        register.setRegister(new JsonRegister("user2", "user.user@domain.de", "password", "password"));
+        con.write(register);
+        register.setRegister(new JsonRegister("user2", "user.user@domain.com", "password", "password111"));
         con.write(register);
         
         ChatProtocol login = new ChatProtocol(Action.LOGIN);
-        login.setLogin(new JsonLogin(user + "@domain.de", password));
+        login.setLogin(new JsonLogin("user.user@domain.com", "password"));
+        con.write(login);
+        login.setLogin(new JsonLogin("user.user@domain.de", "password"));
         con.write(login);
         
         Thread.sleep(100000);
+        
+        con.close();
     }
 }

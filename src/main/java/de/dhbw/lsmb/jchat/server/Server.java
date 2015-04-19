@@ -6,6 +6,9 @@
 package de.dhbw.lsmb.jchat.server;
 
 import de.dhbw.lsmb.jchat.connection.ConnectionManager;
+import de.dhbw.lsmb.jchat.db.EntityManagement;
+import de.dhbw.lsmb.jchat.json.models.Action;
+import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,17 +19,21 @@ import java.net.Socket;
  */
 public final class Server extends Thread
 {
-    public static void main(String args[]) throws IOException {
-        (new Server(1234)).start();
-    }
-    
-    private final ServerSocket serverSocket;
+    private ServerSocket serverSocket;
     private boolean running;
     
-    
-    public Server(int port) throws IOException {
+    public Server(int port, String entity) throws IOException {
         System.out.println("Server start @ Port " + port + ".");
         serverSocket = new ServerSocket(port);
+        EntityManagement.getEntityManagerFactoryInstance(entity);
+    }
+    
+    public Server(int port, String entity, int parentPort, String parentHost) throws IOException {
+        this(port, entity);
+        ServerConnection con = ConnectionManager.getInstance().addConnection(new Socket(parentHost, parentPort));
+//        ChatProtocol login = new ChatProtocol(Action.LOGIN);
+//        login.setVerification(ServerConnection.SERVER_VERIFIC);
+//        con.write(login);
     }
     
     @Override

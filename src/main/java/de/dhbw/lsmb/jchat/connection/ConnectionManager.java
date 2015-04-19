@@ -32,14 +32,17 @@ public class ConnectionManager
         return instance;
     }
     
-    public void addConnection(Socket socket) {
+    public ServerConnection addConnection(Socket socket) {
         try
         {
-            connections.add(new ServerConnection(socket));
+            ServerConnection con = new ServerConnection(socket);
+            connections.add(con);
+            return con;
         }
         catch(IOException ex)
         {
             System.out.println("Connection not created");
+            return null;
         }
     }
     
