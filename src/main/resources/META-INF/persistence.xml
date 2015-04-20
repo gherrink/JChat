@@ -16,8 +16,7 @@
             <property name="hibernate.connection.username" value="chat" />
             <property name="hibernate.connection.password" value="wWmEWCVbj6Vmmqzz" />
 
-
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.hbm2ddl.auto" value="create-drop" />
 
             <property name="hibernate.c3p0.min_size" value="5" />
             <property name="hibernate.c3p0.max_size" value="10" />
@@ -40,8 +39,7 @@
             <property name="hibernate.connection.username" value="chat2" />
             <property name="hibernate.connection.password" value="bqWAXFnwHtftUQGQ" />
 
-
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.hbm2ddl.auto" value="create-drop" />
 
             <property name="hibernate.c3p0.min_size" value="5" />
             <property name="hibernate.c3p0.max_size" value="10" />
