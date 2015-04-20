@@ -36,6 +36,12 @@ public class Client1
 //                logout.setVerification(verific);
 //                con.write(logout);
             }
+        }, new ClientConnection.MessageListener()
+        {
+            @Override
+            public void message(JsonMessage message)
+            {
+            }
         });
         
         ChatProtocol register = new ChatProtocol(Action.REGISTER);

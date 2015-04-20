@@ -6,10 +6,12 @@
 package de.dhbw.lsmb.jchat.client;
 
 import de.dhbw.lsmb.jchat.connection.Connection;
+import de.dhbw.lsmb.jchat.connection.ConnectionManager;
 import de.dhbw.lsmb.jchat.json.models.Action;
 import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
 import de.dhbw.lsmb.jchat.json.models.JsonMessage;
 import de.dhbw.lsmb.jchat.json.models.JsonStatus;
+import de.dhbw.lsmb.jchat.server.ServerConnection;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -20,12 +22,14 @@ import java.net.Socket;
 public class ClientConnection extends Connection
 {
     private String verification = null;
-    private LoginListener loginListener;
+    private final LoginListener loginListener;
+    private final MessageListener messageListener;
     
-    public ClientConnection(Socket socket, LoginListener loginListener) throws IOException
+    public ClientConnection(Socket socket, LoginListener loginListener, MessageListener messageListener) throws IOException
     {
         super(socket);
         this.loginListener = loginListener;
+        this.messageListener = messageListener;
     }
     
     public String getVerification() {
@@ -40,7 +44,7 @@ public class ClientConnection extends Connection
         } else if(protocol.getAction().equals(Action.MESSAGE.toString())) {
             showMessage(protocol.getMessage());
         } 
-        if(verification == null && protocol.getVerification() != null) {
+        if(verification == null && protocol.getVerification() != null && !protocol.getVerification().equals(ServerConnection.SERVER_VERIFIC)) {
             verification = protocol.getVerification();
             loginListener.logedin(this);
         }
@@ -57,11 +61,16 @@ public class ClientConnection extends Connection
     private void showMessage(JsonMessage message) {
         if(message != null) {
             System.out.println(message.toString());
+            messageListener.message(message);
         }
     }
     
     public interface LoginListener {
         public void logedin(ClientConnection con);
+    }
+    
+    public interface MessageListener {
+        public void message(JsonMessage message);
     }
     
 }

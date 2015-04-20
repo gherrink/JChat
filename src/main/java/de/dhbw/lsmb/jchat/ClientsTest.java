@@ -20,7 +20,9 @@ public class ClientsTest
     public static void main(String[] args)
     {
         newClient(Server1.PORT, "localhost", "user1", "password1");
+        newClient(Server1.PORT, "localhost", "user3", "password3");
         newClient(Server2.PORT, "localhost", "user2", "password2");
+        newClient(Server2.PORT, "localhost", "user4", "password4");
     }
     
     public static void newClient(final int port, final String url, final String user, final String password) {

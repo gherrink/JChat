@@ -79,7 +79,7 @@ public class JsonMessage
     
     @Override
     public String toString() {
-        return "Message from "+ sender +" "+ date +" : "+ message ;
+        return sender +" "+ date +": "+ message ;
     }
 
     /**

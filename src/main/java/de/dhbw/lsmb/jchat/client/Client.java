@@ -32,6 +32,12 @@ public class Client
                 message.setMessage(new JsonMessage("Message from " + user));
                 con.write(message);
             }
+        }, new ClientConnection.MessageListener()
+        {
+            @Override
+            public void message(JsonMessage message)
+            {
+            }
         });
         
         ChatProtocol register = new ChatProtocol(Action.REGISTER);
