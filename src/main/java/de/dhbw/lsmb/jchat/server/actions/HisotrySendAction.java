@@ -54,7 +54,7 @@ public class HisotrySendAction extends ServerAction
         {
             JsonMessage jmsg = new JsonMessage(msg.getMessage());
             jmsg.setDate(msg.getDate());
-            jmsg.setSenderid(msg.getId());
+            jmsg.setSenderid(msg.getSender());
             messages.add(jmsg);
         }
         

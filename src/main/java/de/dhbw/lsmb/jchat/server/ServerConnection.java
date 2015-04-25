@@ -14,6 +14,8 @@ import de.dhbw.lsmb.jchat.server.actions.RegisterAction;
 import de.dhbw.lsmb.jchat.server.actions.ServerAction;
 import de.dhbw.lsmb.jchat.server.actions.LoginAction;
 import de.dhbw.lsmb.jchat.server.actions.MessageAction;
+import de.dhbw.lsmb.jchat.server.actions.UserSaveAction;
+import de.dhbw.lsmb.jchat.server.actions.UserSendAction;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -64,6 +66,10 @@ public class ServerConnection extends Connection
             return new HistorySaveAction(this);
         } else if(protocol.getAction().equals(Action.HISTORY_SEND.toString())) {
             return new HisotrySendAction(this);
+        } else if(protocol.getAction().equals(Action.USER_SAVE.toString()) && SERVER_VERIFIC.equals(protocol.getVerification())) {
+            return new UserSaveAction(this);
+        } else if(protocol.getAction().equals(Action.USER_SEND.toString()) && SERVER_VERIFIC.equals(protocol.getVerification())) {
+            return new UserSendAction(this);
         }
         
         return null;

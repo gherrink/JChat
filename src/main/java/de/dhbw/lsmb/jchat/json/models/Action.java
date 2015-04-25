@@ -12,7 +12,8 @@ package de.dhbw.lsmb.jchat.json.models;
 public enum Action
 {
     REGISTER("register"), MESSAGE("message"), STATUS("status"), LOGIN("login"),
-    LOGOUT("logout"), HISTORY_SEND("historysend"), HISTORY_SAVE("historysave");
+    LOGOUT("logout"), HISTORY_SEND("historysend"), HISTORY_SAVE("historysave"),
+    USER_SEND("usersend"), USER_SAVE("usersave");
     
     private final String action;
     

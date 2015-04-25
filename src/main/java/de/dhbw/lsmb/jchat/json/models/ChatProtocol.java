@@ -5,6 +5,7 @@
  */
 package de.dhbw.lsmb.jchat.json.models;
 
+import de.dhbw.lsmb.jchat.db.models.User;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,6 +19,7 @@ public class ChatProtocol
     private String verification;
     private JsonMessage message;
     private ArrayList<JsonMessage> messages;
+    private ArrayList<User> user;
     private Date date;
     private JsonRegister register;
     private JsonStatus status;
@@ -153,6 +155,22 @@ public class ChatProtocol
     public void setDate(Date date)
     {
         this.date = date;
+    }
+
+    /**
+     * @return the user
+     */
+    public ArrayList<User> getUser()
+    {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(ArrayList<User> user)
+    {
+        this.user = user;
     }
     
 }

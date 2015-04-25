@@ -35,7 +35,11 @@ public final class Server extends Thread
     public Server(int port, String entity, int parentPort, String parentHost) throws IOException {
         this(port, entity);
         ServerConnection con = ConnectionManager.getInstance().addConnection(new Socket(parentHost, parentPort));
-        ChatProtocol prot = new ChatProtocol(Action.HISTORY_SEND);
+        ChatProtocol prot = new ChatProtocol(Action.USER_SEND);
+        prot.setVerification(ServerConnection.SERVER_VERIFIC);
+        con.write(prot);
+       
+        prot = new ChatProtocol(Action.HISTORY_SEND);
         prot.setVerification(ServerConnection.SERVER_VERIFIC);
         
         EntityManager em = EntityManagement.createEntityManager();

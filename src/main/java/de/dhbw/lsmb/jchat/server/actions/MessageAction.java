@@ -66,7 +66,9 @@ public class MessageAction extends ServerAction
         
         ChatProtocol msgProt = new ChatProtocol(Action.MESSAGE);
         msgProt.setVerification(ServerConnection.SERVER_VERIFIC);
-        msgProt.setMessage(new JsonMessage(sendername, message.getMessage(), message.getDate()));
+        JsonMessage jmsg = new JsonMessage(sendername, message.getMessage(), message.getDate());
+        jmsg.setSenderid(sender);
+        msgProt.setMessage(jmsg);
         ConnectionManager.getInstance().write(msgProt, getConnection());
         
         return getProtocolStatus(new JsonStatus(true, "Message send"));
