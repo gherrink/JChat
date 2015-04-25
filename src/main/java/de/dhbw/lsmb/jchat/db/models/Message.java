@@ -34,6 +34,12 @@ public class Message
     @Column(nullable = false)
     private String message;
     
+    public Message()
+    {
+        this.date = null;
+        this.message = null;
+    }
+    
     public Message(Date date, String message, int sender)
     {
         this.date = date;

@@ -8,6 +8,8 @@ package de.dhbw.lsmb.jchat.server;
 import de.dhbw.lsmb.jchat.connection.Connection;
 import de.dhbw.lsmb.jchat.json.models.Action;
 import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
+import de.dhbw.lsmb.jchat.server.actions.HisotrySendAction;
+import de.dhbw.lsmb.jchat.server.actions.HistorySaveAction;
 import de.dhbw.lsmb.jchat.server.actions.RegisterAction;
 import de.dhbw.lsmb.jchat.server.actions.ServerAction;
 import de.dhbw.lsmb.jchat.server.actions.LoginAction;
@@ -58,6 +60,10 @@ public class ServerConnection extends Connection
             close();
         } else if(protocol.getAction().equals(Action.MESSAGE.toString()) && hasPermission(protocol)) {
             return new MessageAction(this);
+        } else if(protocol.getAction().equals(Action.HISTORY_SAVE.toString()) && SERVER_VERIFIC.equals(protocol.getVerification())) {
+            return new HistorySaveAction(this);
+        } else if(protocol.getAction().equals(Action.HISTORY_SEND.toString())) {
+            return new HisotrySendAction(this);
         }
         
         return null;

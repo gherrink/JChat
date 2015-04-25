@@ -6,7 +6,6 @@
 package de.dhbw.lsmb.jchat.client;
 
 import de.dhbw.lsmb.jchat.connection.Connection;
-import de.dhbw.lsmb.jchat.connection.ConnectionManager;
 import de.dhbw.lsmb.jchat.json.models.Action;
 import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
 import de.dhbw.lsmb.jchat.json.models.JsonMessage;

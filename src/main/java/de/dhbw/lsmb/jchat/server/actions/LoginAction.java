@@ -5,7 +5,6 @@
  */
 package de.dhbw.lsmb.jchat.server.actions;
 
-import de.dhbw.lsmb.jchat.connection.ConnectionManager;
 import de.dhbw.lsmb.jchat.db.EntityManagement;
 import de.dhbw.lsmb.jchat.db.models.User;
 import de.dhbw.lsmb.jchat.json.models.ChatProtocol;

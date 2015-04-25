@@ -7,11 +7,15 @@ package de.dhbw.lsmb.jchat.server;
 
 import de.dhbw.lsmb.jchat.connection.ConnectionManager;
 import de.dhbw.lsmb.jchat.db.EntityManagement;
+import de.dhbw.lsmb.jchat.db.models.Message;
 import de.dhbw.lsmb.jchat.json.models.Action;
 import de.dhbw.lsmb.jchat.json.models.ChatProtocol;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -31,9 +35,19 @@ public final class Server extends Thread
     public Server(int port, String entity, int parentPort, String parentHost) throws IOException {
         this(port, entity);
         ServerConnection con = ConnectionManager.getInstance().addConnection(new Socket(parentHost, parentPort));
-//        ChatProtocol login = new ChatProtocol(Action.LOGIN);
-//        login.setVerification(ServerConnection.SERVER_VERIFIC);
-//        con.write(login);
+        ChatProtocol prot = new ChatProtocol(Action.HISTORY_SEND);
+        prot.setVerification(ServerConnection.SERVER_VERIFIC);
+        
+        EntityManager em = EntityManagement.createEntityManager();
+        Query query = em.createQuery("FROM Message m ORDER BY m.date DESC");
+        query.setMaxResults(1);
+        List<Message> lastMessage = query.getResultList();
+        
+        if(! lastMessage.isEmpty()) {
+            prot.setDate(lastMessage.get(0).getDate());
+        }
+        
+        con.write(prot);
     }
     
     @Override
