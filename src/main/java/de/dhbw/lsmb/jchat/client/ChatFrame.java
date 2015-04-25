@@ -51,6 +51,8 @@ public class ChatFrame extends javax.swing.JFrame implements ClientConnection.Lo
             ChatProtocol login = new ChatProtocol(Action.LOGIN);
             login.setLogin(new JsonLogin(mail, password));
             connection.write(login);
+            
+            connection.requestHistory();
         }
         catch(Exception ex)
         {
