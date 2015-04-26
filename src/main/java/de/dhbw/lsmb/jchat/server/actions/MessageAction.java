@@ -43,7 +43,7 @@ public class MessageAction extends ServerAction
         
         EntityManager em = EntityManagement.createEntityManager();
         int sender;
-        String sendername = "server "+ msg.getSender();
+        String sendername = msg.getSender();
         if(msg.getSender() == null) {
             Query query = em.createQuery(SELECT);
             query.setParameter("pw", protocol.getVerification());
